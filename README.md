@@ -1,4 +1,4 @@
-# Fren Drops (frendrops.xyz coming soon...)
+# Fren Drops [frendrops.xyz](https://frendrops.xyz) (coming soon...)
 ![fren_drops](https://github.com/lostintime101/100_builders/assets/92709487/0ba86d51-c7eb-49c4-8243-08eeda6e0a04)
 
 _If every person can have a token,  
