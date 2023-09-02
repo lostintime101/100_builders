@@ -3,38 +3,31 @@ from typing import Dict, List, Optional
 
 LIFETIME_SECONDS = 86_400  # 24 hours
 
+""" managing pks will be dealt with separately """
+
 
 class Airdrop:
-    def __init__(self):
+    def __init__(self, creator: str, whitelist: List[str], recipients: int, amount: int, message: str = None):
         self.address = ""  # TODO: logic for generating fresh address
-        self.pk = ""  # TODO: secrets manager integration
         self.created_at = datetime.now()
         self.gas_token_amount = 0  # can be same as airdrop_token_amount
-        self.airdrop_token_amount = 0
+        self.airdrop_token_amount = amount
         self.airdrop_token_address = ""
         self.current_token_balance = 0
-        self.creator = None
-        self.message = None
+        self.creator = creator
+        self.message = message
         self.whitelist = {}
-        self.claimed = {}
-        self.recipients = 0
+        self.recipients = recipients  # must be less than or equal to length of whitelist, cannot be 0 or negative
         self.total_addresses_claimed = 0
         self.activated = False
         self.activated_at = None
+        for address in whitelist: self.whitelist[address] = None
 
-    def activate_airdrop(self, creator: str, whitelist: List[str], recipients: int, amount: int, message: str = None):
+    def activate_airdrop(self):
 
-        if self.activated:
-            return ValueError("Airdrop already active")
-
+        if self.activated: return ValueError("Airdrop already active")
         self.activated = True
-        self.creator = creator
-        self.airdrop_token_amount = amount
-        self.current_token_balance = amount
-        self.message = message
-        self.recipients = recipients
         self.activated_at = datetime.now()
-        for address in whitelist: self.whitelist[address] = True
 
     def deactivate_airdrop(self):
         self.activated = False
@@ -52,14 +45,12 @@ class Airdrop:
 
         if self.total_addresses_claimed >= self.recipients:
             self.deactivate_airdrop()
-            return ValueError("All addresses claimed")
+            return ValueError("Max recipients reached")
 
         if self.has_address_claimed(claimant):
-            self.deactivate_airdrop()
             return ValueError("Address already claimed")
 
         if not self.is_address_whitelisted(claimant):
-            self.deactivate_airdrop()
             return ValueError("Address not on whitelist")
 
         if self.current_token_balance <= 0:
@@ -70,10 +61,9 @@ class Airdrop:
 
         #  TODO: logic for dropping tokens to address
 
-        self.claimed[claimant] = amount
-        self.whitelist[claimant] = False
+        self.whitelist[claimant] = amount
         self.current_token_balance -= amount
-        self.total_addresses_claimed = len(self.claimed)
+        self.total_addresses_claimed += 1
 
         return amount
 
@@ -111,19 +101,19 @@ class Airdrop:
         return self.current_token_balance
 
     def get_list_of_claimed_addresses(self):
-        return self.claimed.keys()
+        return [k for k, v in self.whitelist.items() if v is not None]
 
     def get_claimed_addresses_and_amounts(self):
-        return self.claimed.items()
+        return [(k, v) for k, v in self.whitelist.items() if v is not None]
 
     def has_address_claimed(self, address: str):
-        return address in self.claimed
+        return address in self.whitelist and self.whitelist[address] is not None
 
     def is_address_whitelisted(self, address: str):
-        return address in self.whitelist
+        return address in self.whitelist.keys()
 
     def is_address_claimable(self, address: str):
         return self.is_address_whitelisted(address) and not self.has_address_claimed(address)
 
     def get_address_claimed_amount(self, address: str):
-        return self.claimed[address]
+        return self.whitelist[address]
