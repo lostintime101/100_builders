@@ -1,8 +1,8 @@
-# Fren Drops 
+# Fren Drops [frendrops.xyz](https://frendrops.xyz) (coming soon...)
 ![fren_drops](https://github.com/lostintime101/100_builders/assets/92709487/0ba86d51-c7eb-49c4-8243-08eeda6e0a04)
 
-_If Friend Tech showed us every person can have a token,  
-Why can't every private group have an airdrop?_
+_If every person can have a token,  
+Why can't every group have an airdrop?_
 
 👉 [Intro video](https://www.loom.com/share/a8796cb5087840ce96b20f0cedd48e3f?sid=2debfb5c-b75e-4515-80b5-818a1f05972e) 👈   
 👉 [Intro slides](https://docs.google.com/presentation/d/e/2PACX-1vTxIAfcZ1FCLWqXiyR4yxux5OKuUQ5phQIdHaGIT_eZKXAtD2hVHdx5VaN33TvdrE-2PGF9T-PAdmpF/pub?start=false&loop=false&delayms=3000) 👈
