@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 LIFETIME_SECONDS = 86_400  # 24 hours
 
@@ -7,12 +7,12 @@ LIFETIME_SECONDS = 86_400  # 24 hours
 class Airdrop:
     def __init__(self):
         self.address = ""  # TODO: logic for generating fresh address
-        self.pk = ""
+        self.pk = ""  # TODO: secrets manager integration
         self.created_at = datetime.now()
-        self.gas_token = 0
+        self.gas_token_amount = 0  # can be same as airdrop_token_amount
         self.airdrop_token_amount = 0
         self.airdrop_token_address = ""
-        self.current_balance = 0
+        self.current_token_balance = 0
         self.creator = None
         self.message = None
         self.whitelist = {}
@@ -30,7 +30,7 @@ class Airdrop:
         self.activated = True
         self.creator = creator
         self.airdrop_token_amount = amount
-        self.current_balance = amount
+        self.current_token_balance = amount
         self.message = message
         self.recipients = recipients
         self.activated_at = datetime.now()
@@ -38,7 +38,7 @@ class Airdrop:
 
     def deactivate_airdrop(self):
         self.activated = False
-        if self.current_balance > 0:
+        if self.current_token_balance > 0:
             ...  # TODO: logic for returning tokens to creator
 
     def drop_to_address(self, claimant: str):
@@ -62,7 +62,7 @@ class Airdrop:
             self.deactivate_airdrop()
             return ValueError("Address not on whitelist")
 
-        if self.current_balance <= 0:
+        if self.current_token_balance <= 0:
             self.deactivate_airdrop()
             return ValueError("Airdrop balance depleted")
 
@@ -72,7 +72,7 @@ class Airdrop:
 
         self.claimed[claimant] = amount
         self.whitelist[claimant] = False
-        self.current_balance -= amount
+        self.current_token_balance -= amount
         self.total_addresses_claimed = len(self.claimed)
 
         return amount
@@ -91,7 +91,7 @@ class Airdrop:
             "Time remaining": LIFETIME_SECONDS - (current_time - self.activated_at).seconds,
             "Addresses claimed": f"{self.total_addresses_claimed} / {self.recipients}",
             "Percentage claimed": f"{(self.total_addresses_claimed / self.recipients)*100}%",
-            "Current balance": self.current_balance
+            "Current balance": self.current_token_balance
         }
 
     def check_time_remaining(self):
@@ -108,7 +108,7 @@ class Airdrop:
         return self.check_time_remaining() <= 0
 
     def check_airdrop_amount_left(self):
-        return self.current_balance
+        return self.current_token_balance
 
     def get_list_of_claimed_addresses(self):
         return self.claimed.keys()
