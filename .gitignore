@@ -4,4 +4,4 @@ __pycache__/
 *.pyc
 .env
 get_jwt.py
-test.py
+db69.db

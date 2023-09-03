@@ -1,9 +1,9 @@
 from fastapi import FastAPI, HTTPException
 from typing import List
 from uuid import UUID
-from models import Airdrop
+from db_tables_setup import Airdrop, Activation, Whitelist, Status
 
-
+""" if app loads but can't view in browser, try turning off VPN """
 app = FastAPI()
 
 db: List[Airdrop] = [
@@ -20,7 +20,7 @@ db: List[Airdrop] = [
         whitelist={},
         recipients=0,
         total_addresses_claimed=0,
-        activated=False,
+        activated=Activation.unactivated,
         activated_at=None
     ),
     Airdrop(
@@ -36,7 +36,7 @@ db: List[Airdrop] = [
         whitelist={"0x127": False, "0x128": 1, "0x129": 1},
         recipients=3,
         total_addresses_claimed=2,
-        activated=True,
+        activated=Activation.unactivated,
         activated_at="2023-09-02 14:00:47.064665"
     ),
 ]
