@@ -14,7 +14,7 @@ load_dotenv()
 
 # There should be one engine for the entire application
 DB_FILE = os.getenv("DB")
-#TODO: in production, remove echo=True
+# TODO: in production, remove echo=True
 engine = create_engine(f"sqlite:///{DB_FILE}", echo=True)
 
 
@@ -70,9 +70,16 @@ class Whitelist(SQLModel, table=True):
     id: Optional[UUID] = Field(default_factory=uuid4, primary_key=True, nullable=False)
     airdrop_id: UUID = Field(nullable=False, index=True, foreign_key='airdrops.id')
     address: str = Field(nullable=False)
-    amount_received: int = Field(default=0, nullable=False)
-    status: Status = Status.unclaimed
-    claimed_at: datetime = Field(default=None, nullable=True)
+    amount_received: Optional[int] = Field(default=0, nullable=False)
+    status: Optional[Status] = Field(default=Status.unclaimed, nullable=False)
+    claimed_at: Optional[datetime] = Field(default=None, nullable=True)
+
+
+class WhitelistUpdate(SQLModel):
+
+    amount_received: Optional[int] = None
+    status: Optional[Status] = None
+    claimed_at: Optional[datetime] = None
 
 
 def create_tables():
