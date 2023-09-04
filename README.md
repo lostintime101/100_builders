@@ -20,4 +20,8 @@ Samples from the slide deck below, watch the [intro video](https://www.loom.com/
 
 ![Slide14](https://github.com/lostintime101/100_builders/assets/92709487/cee33a56-4177-4bce-82d7-5c7103058950)
 
+![Fren Drops1](https://github.com/lostintime101/100_builders/assets/92709487/031af720-e8c2-42fa-aec5-3a790c75db30)
+
+![Fren Drops](https://github.com/lostintime101/100_builders/assets/92709487/4f10f4b1-8f35-4783-b157-267a83f0c99e)
+
 Part of the 100 Builders Hackathon (https://100.builders/)
