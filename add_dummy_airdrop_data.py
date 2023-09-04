@@ -1,4 +1,4 @@
-import os, random
+import os, random, string
 from datetime import datetime
 from random import choice
 from sqlmodel import Session, create_engine, SQLModel
@@ -16,6 +16,9 @@ def generate_dummy_data(num_records):
     dummy_data = []
 
     for _ in range(num_records):
+
+        transaction_hash = ''.join(random.choice(string.hexdigits) for _ in range(64))
+
         airdrop = Airdrop(
             dispatch_address="Ox" + fake.sha256(raw_output=False)[:40],
             created_at=datetime.now(),
@@ -30,10 +33,11 @@ def generate_dummy_data(num_records):
             total_addresses_claimed=fake.random_int(min=0, max=100),
             activated=choice(list(Activation)),
             activated_at=fake.date_time_this_decade(),
-            deactivated_at=fake.date_time_this_decade()
+            deactivated_at=fake.date_time_this_decade(),
+            transaction_hash="0x" + transaction_hash
         )
 
-        dummy_data.append((airdrop))
+        dummy_data.append(airdrop)
 
     return dummy_data
 

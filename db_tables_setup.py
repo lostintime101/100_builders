@@ -39,16 +39,17 @@ class Airdrop(SQLModel, table=True):
     created_at: datetime = Field(nullable=False)
     gas_token_amount: int = Field(default=0, nullable=False)
     airdrop_token_amount: int = Field(default=0, nullable=False)
-    airdrop_token_address: Optional[str] = None
+    airdrop_token_address: Optional[str] = Field(default=None)
     current_token_balance: int = Field(default=0, nullable=False)
     creator_address: str = Field(nullable=False, max_length=42, min_length=42)
-    message: Optional[str]
+    message: Optional[str] = Field(default=None, max_length=1_000)
     whitelist_created: bool = Field(default=False, nullable=False)
     recipients: int = Field(gt=0, nullable=False)
     total_addresses_claimed: int = Field(default=0, nullable=False)  # le=recipients, error message, not sure why
     activated: Activation = Activation.unactivated
     activated_at: datetime = Field(default=None)
     deactivated_at: datetime = Field(default=None)
+    transaction_hash: Optional[str] = Field(max_length=66, min_length=66, nullable=True)
 
 
 class AirdropUpdate(SQLModel):
@@ -73,6 +74,7 @@ class Whitelist(SQLModel, table=True):
     amount_received: Optional[int] = Field(default=0, nullable=False)
     status: Optional[Status] = Field(default=Status.unclaimed, nullable=False)
     claimed_at: Optional[datetime] = Field(default=None, nullable=True)
+    transaction_hash: Optional[str] = Field(max_length=66, min_length=66, nullable=True)
 
 
 class WhitelistUpdate(SQLModel):
@@ -80,6 +82,7 @@ class WhitelistUpdate(SQLModel):
     amount_received: Optional[int] = None
     status: Optional[Status] = None
     claimed_at: Optional[datetime] = None
+    transaction_hash: Optional[str] = None
 
 
 def create_tables():

@@ -1,4 +1,4 @@
-import os, random
+import os, random, string
 from datetime import datetime
 from random import choice
 from sqlmodel import Session, create_engine, SQLModel
@@ -17,13 +17,16 @@ def generate_dummy_data(num_records):
 
     for _ in range(num_records):
 
+        transaction_hash = ''.join(random.choice(string.hexdigits) for _ in range(64))
+
         """ Change the airdrop id to match the id of the air drop you want to add the whitelist to """
         whitelist = Whitelist(
-            airdrop_id="36cf8d14b1c94321a0204455b3c52f7a",
+            airdrop_id="845a12b0ca7b4a80b00435831df0c6f1",
             address="Ox" + fake.sha256(raw_output=False)[:40],
             amount_received=fake.random_int(min=0, max=100),
             status=choice(list(Status)),
-            claimed_at=fake.date_time_this_decade()
+            claimed_at=fake.date_time_this_decade(),
+            transaction_hash="0x" + transaction_hash
         )
 
         dummy_data.append((whitelist))

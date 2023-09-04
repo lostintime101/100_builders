@@ -10,7 +10,7 @@ from typing import List
 
 # local
 from db_tables_setup import Airdrop, Activation, Whitelist, Status, AirdropUpdate, WhitelistUpdate
-
+from onchain_logic import create_wallet_address
 
 load_dotenv()
 """ if app loads but can't view in browser, try turning off VPN """
@@ -60,8 +60,9 @@ async def fetch_airdrops_by_creator(creator_address: str):
 # create new airdrop
 @app.post("/api/v1/drops")
 async def create_airdrop(airdrop: Airdrop):
-    # db.append(airdrop)
-    # return {"id": airdrop.id}
+
+    airdrop.dispatch_address = create_wallet_address()
+
     with Session(engine) as session:
         session.add(airdrop)
         session.commit()
