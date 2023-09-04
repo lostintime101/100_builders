@@ -1,45 +1,29 @@
+# 3rd party
 from fastapi import FastAPI, HTTPException
-from typing import List
-from uuid import UUID
-from db_tables_setup import Airdrop, Activation, Whitelist, Status
+from sqlmodel import Session, create_engine, SQLModel, select
 
+# built-in
+from uuid import UUID
+import os
+from dotenv import load_dotenv
+
+# local
+from db_tables_setup import Airdrop, Activation, Whitelist, Status, AirdropUpdate
+
+
+load_dotenv()
 """ if app loads but can't view in browser, try turning off VPN """
 app = FastAPI()
 
-db: List[Airdrop] = [
-    Airdrop(
-        id=UUID("f4e63a55-22e8-4aa1-b3d6-bcb6b4a8dc1c", version=4),
-        address="0x123",
-        created_at="2023-09-02 13:58:47.064663",
-        gas_token_amount=0,
-        airdrop_token_amount=0,
-        airdrop_token_address=None,
-        current_token_balance=0,
-        creator="0x134",
-        message="",
-        whitelist={},
-        recipients=0,
-        total_addresses_claimed=0,
-        activated=Activation.unactivated,
-        activated_at=None
-    ),
-    Airdrop(
-        id=UUID("675b7979-32df-47a6-beaf-19641eee0728", version=4),
-        address="Ox124",
-        created_at="2023-09-02 13:59:47.064663",
-        gas_token_amount=1,
-        airdrop_token_amount=3,
-        airdrop_token_address=None,
-        current_token_balance=1,
-        creator="Ox125",
-        message="Happy Birthday!",
-        whitelist={"0x127": False, "0x128": 1, "0x129": 1},
-        recipients=3,
-        total_addresses_claimed=2,
-        activated=Activation.unactivated,
-        activated_at="2023-09-02 14:00:47.064665"
-    ),
-]
+DB_FILE = os.getenv("DB")
+# TODO: in production, remove echo=True
+connect_args = {"check_same_thread": False}
+engine = create_engine(f"sqlite:///{DB_FILE}", echo=True, connect_args=connect_args)
+
+
+@app.on_event("startup")
+def startup_event():
+    SQLModel.metadata.create_all(engine)
 
 
 # root, welcome message
@@ -51,36 +35,50 @@ async def root():
 # fetch all airdrops
 @app.get("/api/v1/drops")
 async def fetch_airdrops():
-    return db
+    with Session(engine) as session:
+        db_airdrops = session.exec(select(Airdrop)).all()
+        return db_airdrops
 
 
-# fetch airdrop by address
-@app.get("/api/drops/{creator}")
-async def fetch_airdrops_by_creator(creator: str):
-    for airdrop in db:
-        if airdrop.creator == creator:
-            return airdrop
-    raise HTTPException(
-        status_code=404,
-        detail=f"Airdrop with creator {creator} not found"
-    )
+# fetch airdrop by id
+@app.get("/api/v1/drops/{id}")
+async def fetch_airdrops_by_creator(airdrop_id: UUID):
+    with Session(engine) as session:
+        db_airdrop = session.exec(select(Airdrop).where(Airdrop.id == airdrop_id)).first()
+        return db_airdrop
 
 
-# deactivate airdrop
-@app.put("/api/drops/{address}")
-async def deactivate_airdrop(address: str):
-    for airdrop in db:
-        if airdrop.address == address:
-            airdrop.activated = False
-            return {"message": "airdrop deactivated"}
-    raise HTTPException(
-        status_code=404,
-        detail=f"Airdrop under {address} not found"
-    )
+# fetch airdrops by creator
+@app.get("/api/v1/drops/{creator_address}")
+async def fetch_airdrops_by_creator(creator_address: str):
+    with Session(engine) as session:
+        airdrops = session.exec(select(Airdrop).where(Airdrop.creator_address == creator_address)).all()
+        return airdrops
 
 
 # create new airdrop
-@app.post("/api/v1/users")
+@app.post("/api/v1/drops")
 async def create_airdrop(airdrop: Airdrop):
-    db.append(airdrop)
-    return {"id": airdrop.id}
+    # db.append(airdrop)
+    # return {"id": airdrop.id}
+    with Session(engine) as session:
+        session.add(airdrop)
+        session.commit()
+        session.refresh(airdrop)
+        return airdrop
+
+
+# update airdrop
+@app.patch("/api/v1/drops/update/{airdrop_id}")
+async def update_airdrop(airdrop_id: UUID, airdrop: AirdropUpdate):
+    with Session(engine) as session:
+        db_airdrop = session.get(Airdrop, airdrop_id)
+        if not db_airdrop:
+            raise HTTPException(status_code=404, detail="Airdrop not found")
+        db_data = airdrop.dict(exclude_unset=True)
+        for key, value in db_data.items():
+            setattr(db_airdrop, key, value)
+        session.add(db_airdrop)
+        session.commit()
+        session.refresh(db_airdrop)
+        return db_airdrop

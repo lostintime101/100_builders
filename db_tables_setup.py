@@ -1,16 +1,20 @@
-from pydantic import BaseModel
+# 3rd party
+from sqlmodel import Field, SQLModel, create_engine
+
+# built-in
 from uuid import UUID, uuid4
 from typing import Optional
 from enum import Enum
 from datetime import datetime
-from sqlmodel import Field, SQLModel, create_engine
 from dotenv import load_dotenv
 import os
+
 
 load_dotenv()
 
 # There should be one engine for the entire application
 DB_FILE = os.getenv("DB")
+#TODO: in production, remove echo=True
 engine = create_engine(f"sqlite:///{DB_FILE}", echo=True)
 
 
@@ -41,10 +45,22 @@ class Airdrop(SQLModel, table=True):
     message: Optional[str]
     whitelist_created: bool = Field(default=False, nullable=False)
     recipients: int = Field(gt=0, nullable=False)
-    total_addresses_claimed: int = Field(default=0, nullable=False, le=recipients)
+    total_addresses_claimed: int = Field(default=0, nullable=False)  # le=recipients, error message, not sure why
     activated: Activation = Activation.unactivated
     activated_at: datetime = Field(default=None)
     deactivated_at: datetime = Field(default=None)
+
+
+class AirdropUpdate(SQLModel):
+
+    gas_token_amount: Optional[int] = None
+    airdrop_token_amount: Optional[int] = None
+    current_token_balance: Optional[int] = None
+    whitelist_created: Optional[bool] = None
+    total_addresses_claimed: Optional[int] = None
+    activated: Optional[Activation] = None
+    activated_at: Optional[datetime] = None
+    deactivated_at: Optional[datetime] = None
 
 
 class Whitelist(SQLModel, table=True):
@@ -66,30 +82,3 @@ def create_tables():
 # create tables in the database
 if __name__ == '__main__':
     create_tables()
-
-
-# class Airdrop(BaseModel):
-#     id: Optional[UUID] = uuid4()
-#     address: str
-#     created_at: datetime = datetime.now()
-#     gas_token_amount: int = 0
-#     airdrop_token_amount: int = 0
-#     airdrop_token_address: Optional[str] = None
-#     current_token_balance: int = 0
-#     creator: str
-#     message: Optional[str]
-#     whitelist: dict
-#     recipients: int
-#     total_addresses_claimed: int
-#     activated: Activation = Activation.unactivated
-#     activated_at: datetime = None
-
-
-# OLD
-# class Whitelist(BaseModel):
-#     id: Optional[UUID] = uuid4()
-#     airdrop_id: UUID
-#     address: str
-#     amount: int = 0
-#     status: Status = Status.unclaimed
-#     claimed_at: datetime = None
