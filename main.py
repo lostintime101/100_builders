@@ -10,7 +10,8 @@ from typing import List
 
 # local
 from db_tables_setup import Airdrop, Activation, Whitelist, Status, AirdropUpdate, WhitelistUpdate
-from onchain_logic import create_wallet_address
+from onchain_logic import *
+
 
 load_dotenv()
 """ if app loads but can't view in browser, try turning off VPN """
