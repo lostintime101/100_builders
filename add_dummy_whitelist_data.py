@@ -21,7 +21,7 @@ def generate_dummy_data(num_records):
 
         """ Change the airdrop id to match the id of the air drop you want to add the whitelist to """
         whitelist = Whitelist(
-            airdrop_id="845a12b0ca7b4a80b00435831df0c6f1",
+            airdrop_id="11553ee3d9f04582801e16a048d07721",
             address="Ox" + fake.sha256(raw_output=False)[:40],
             amount_received=fake.random_int(min=0, max=100),
             status=choice(list(Status)),

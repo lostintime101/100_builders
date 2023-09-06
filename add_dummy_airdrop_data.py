@@ -1,11 +1,18 @@
+# 3rd party
+from faker import Faker
+from sqlmodel import Session, create_engine, SQLModel
+from dotenv import load_dotenv
+
+# built-in
 import os, random, string
 from datetime import datetime
 from random import choice
-from sqlmodel import Session, create_engine, SQLModel
-from faker import Faker
 from enum import Enum
-from db_tables_setup import Airdrop, Activation
-from dotenv import load_dotenv
+
+# local
+from db_tables_setup import Airdrop, Activation, RandomnessLevel
+from utils import get_new_nonce
+
 
 load_dotenv()
 
@@ -20,6 +27,7 @@ def generate_dummy_data(num_records):
         transaction_hash = ''.join(random.choice(string.hexdigits) for _ in range(64))
 
         airdrop = Airdrop(
+            nonce=get_new_nonce(),
             dispatch_address="Ox" + fake.sha256(raw_output=False)[:40],
             created_at=datetime.now(),
             gas_token_amount=fake.random_int(min=0, max=1000),
@@ -28,6 +36,7 @@ def generate_dummy_data(num_records):
             current_token_balance=fake.random_int(min=0, max=100000),
             creator_address="Ox" + fake.sha256(raw_output=False)[:40],
             message=fake.text(),
+            randomness=choice(list(RandomnessLevel)),
             whitelist_created=choice([True, False]),
             recipients=fake.random_int(min=1, max=100),
             total_addresses_claimed=fake.random_int(min=0, max=100),

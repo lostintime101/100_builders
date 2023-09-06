@@ -4,13 +4,15 @@ from sqlmodel import Session, create_engine, SQLModel, select
 
 # built-in
 from uuid import UUID
-import os
+import os, sys
 from dotenv import load_dotenv
 from typing import List
 
+import utils
 # local
 from db_tables_setup import Airdrop, Activation, Whitelist, Status, AirdropUpdate, WhitelistUpdate
 from onchain_logic import *
+from utils import *
 
 
 load_dotenv()
@@ -22,11 +24,12 @@ DB_FILE = os.getenv("DB")
 connect_args = {"check_same_thread": False}
 engine = create_engine(f"sqlite:///{DB_FILE}", echo=True, connect_args=connect_args)
 
-
 @app.on_event("startup")
 def startup_event():
     SQLModel.metadata.create_all(engine)
 
+# TEST
+# print(get_airdrop_info_by_whitelist_id("f4ffdcbe59974da187977512dc3d5de9", engine))
 
 # root, welcome message
 @app.get("/")
@@ -62,7 +65,9 @@ async def fetch_airdrops_by_creator(creator_address: str):
 @app.post("/api/v1/drops")
 async def create_airdrop(airdrop: Airdrop):
 
-    airdrop.dispatch_address = create_wallet_address()
+    new_nonce = get_new_nonce()
+    airdrop.dispatch_address = get_new_dispatcher_address(new_nonce)
+    airdrop.nonce = new_nonce
 
     with Session(engine) as session:
         session.add(airdrop)
@@ -118,14 +123,23 @@ async def is_address_whitelisted_for_this_airdrop(airdrop_id: str, address: str)
 # update whitelist
 @app.patch("/api/v1/whitelists/{whitelist_id}")
 async def update_whitelist(whitelist_id: UUID, whitelist: WhitelistUpdate):
+
     with Session(engine) as session:
+
         db_whitelist = session.get(Whitelist, whitelist_id)
+
         if not db_whitelist:
             raise HTTPException(status_code=404, detail="Whitelist UUID not found")
+
         db_data = whitelist.dict(exclude_unset=True)
+
         for key, value in db_data.items():
             setattr(db_whitelist, key, value)
+
+        amount_received = generate_random_amount(whitelist_id)
+
         session.add(db_whitelist)
         session.commit()
         session.refresh(db_whitelist)
+
         return db_whitelist

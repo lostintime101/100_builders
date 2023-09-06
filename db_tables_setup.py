@@ -31,10 +31,19 @@ class Activation(str, Enum):
     deactivated = "deactivated"
 
 
+class RandomnessLevel(str, Enum):
+    none = "none"
+    low = "low"
+    mid = "mid"
+    high = "high"
+    degenerate = "degenerate"
+
+
 class Airdrop(SQLModel, table=True):
 
     __tablename__ = 'airdrops'
     id: Optional[UUID] = Field(default_factory=uuid4, primary_key=True, nullable=False)
+    nonce: int = Field(nullable=False, unique=True)
     dispatch_address: str = Field(index=True, nullable=False, max_length=42, min_length=42)
     created_at: datetime = Field(nullable=False)
     gas_token_amount: int = Field(default=0, nullable=False)
@@ -43,6 +52,7 @@ class Airdrop(SQLModel, table=True):
     current_token_balance: int = Field(default=0, nullable=False)
     creator_address: str = Field(nullable=False, max_length=42, min_length=42)
     message: Optional[str] = Field(default=None, max_length=1_000)
+    randomness: RandomnessLevel = Field(default=RandomnessLevel.mid, nullable=False)
     whitelist_created: bool = Field(default=False, nullable=False)
     recipients: int = Field(gt=0, nullable=False)
     total_addresses_claimed: int = Field(default=0, nullable=False)  # le=recipients, error message, not sure why
