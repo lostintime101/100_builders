@@ -4,9 +4,9 @@ from sqlmodel import Session, create_engine, SQLModel
 from dotenv import load_dotenv
 
 # built-in
-import os, random, string
+import os, randomness_simulation, string
 from datetime import datetime
-from random import choice
+from randomness_simulation import choice
 from enum import Enum
 
 # local

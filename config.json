@@ -1,3 +1,9 @@
 {
-    "last_nonce": "21"
+    "last_nonce": "21",
+    "randomness": {
+    "low": [-10, 10],
+    "mid": [-30, 30],
+    "high": [-55, 55],
+    "degenerate": [-90, 90]
+    }
 }

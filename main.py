@@ -24,12 +24,17 @@ DB_FILE = os.getenv("DB")
 connect_args = {"check_same_thread": False}
 engine = create_engine(f"sqlite:///{DB_FILE}", echo=True, connect_args=connect_args)
 
+
 @app.on_event("startup")
 def startup_event():
     SQLModel.metadata.create_all(engine)
 
+
 # TEST
-# print(get_airdrop_info_by_whitelist_id("f4ffdcbe59974da187977512dc3d5de9", engine))
+airdrop_object = get_airdrop_info_by_whitelist_id("f4ffdcbe59974da187977512dc3d5de9", engine)
+print(generate_random_amount(airdrop_object))
+
+sys.exit()
 
 # root, welcome message
 @app.get("/")
