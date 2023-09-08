@@ -1,5 +1,6 @@
 # 3rd party
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import Session, create_engine, SQLModel, select
 
 # built-in
@@ -19,6 +20,16 @@ from get_holders import fetch_key_holders
 load_dotenv()
 """ if app loads but can't view in browser, try turning off VPN """
 app = FastAPI()
+
+allowed_origins = ["http://localhost:3000"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allowed_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 DB_FILE = os.getenv("DB")
 # TODO: in production, remove echo=True
