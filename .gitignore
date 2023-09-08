@@ -1,3 +1,5 @@
+# back end
+
 /frendrops
 __pycache__/
 .idea/
@@ -5,3 +7,43 @@ __pycache__/
 .env
 get_jwt.py
 db69.db
+
+
+#front end
+
+# dependencies
+frontend/fren-drops-front/node_modules
+frontend/fren-drops-front/.pnp
+frontend/fren-drops-front/.pnp.js
+
+# testing
+frontend/fren-drops-front/coverage
+
+# next.js
+frontend/fren-drops-front/.next/
+frontend/fren-drops-front/out/
+
+# production
+frontend/fren-drops-front/build
+
+# misc
+frontend/fren-drops-front/.DS_Store
+frontend/fren-drops-front/*.pem
+
+# debug
+frontend/fren-drops-front/npm-debug.log*
+frontend/fren-drops-front/yarn-debug.log*
+frontend/fren-drops-front/yarn-error.log*
+frontend/fren-drops-front/.pnpm-debug.log*
+
+# local env files
+frontend/fren-drops-front/.env.local
+frontend/fren-drops-front/.env.development.local
+frontend/fren-drops-front/.env.test.local
+frontend/fren-drops-front/.env.production.local
+
+# vercel
+frontend/fren-drops-front/.vercel
+
+# typescript
+frontend/fren-drops-front/*.tsbuildinfo

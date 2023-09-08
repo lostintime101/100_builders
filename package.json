@@ -1,0 +1,7 @@
+{
+  "name": "fren drops",
+  "scripts": {
+    "start:frontend": "cd frontend/fren-drops-front/ && npm run dev",
+    "start:backend": "uvicorn main:app --reload"
+  }
+}
