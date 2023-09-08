@@ -4,7 +4,7 @@ from sqlmodel import Session, create_engine, SQLModel, select
 
 # built-in
 from uuid import UUID
-import os, sys
+import os, sys, requests, re
 from dotenv import load_dotenv
 from typing import List
 
@@ -13,6 +13,7 @@ import utils
 from db_tables_setup import Airdrop, Activation, Whitelist, Status, AirdropUpdate, WhitelistUpdate
 from onchain_logic import *
 from utils import *
+from get_holders import fetch_key_holders
 
 
 load_dotenv()
@@ -31,10 +32,10 @@ def startup_event():
 
 
 # TEST
-airdrop_object = get_airdrop_info_by_whitelist_id("f4ffdcbe59974da187977512dc3d5de9", engine)
-print(generate_random_amount(airdrop_object))
+# airdrop_object = get_airdrop_info_by_whitelist_id("f4ffdcbe59974da187977512dc3d5de9", engine)
+# print(generate_random_amount(airdrop_object))
+# sys.exit()
 
-sys.exit()
 
 # root, welcome message
 @app.get("/")
@@ -148,3 +149,44 @@ async def update_whitelist(whitelist_id: UUID, whitelist: WhitelistUpdate):
         session.refresh(db_whitelist)
 
         return db_whitelist
+
+
+# fetch group by twitter handle
+@app.get("/api/v1/group/{twitter_handle}")
+async def fetch_group_from_twitter_handle(twitter_handle: str):
+
+    cleaned_username = twitter_handle.strip().lstrip("@")
+
+    if re.match("^[a-zA-Z0-9_]{1,15}$", cleaned_username):
+        print("Cleaned username:", cleaned_username)
+    else: return HTTPException(status_code=400, detail="Invalid handle. Please provide a valid Twitter handle.")
+
+    url = "https://prod-api.kosetto.com/search/users"
+
+    headers = {
+        "Authorization": os.getenv("JWT"),
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Referer": "https://www.friend.tech/"
+    }
+    params = {"username": cleaned_username}
+
+    response = requests.get(url, headers=headers, params=params)
+    user = None
+
+    if response.status_code == 200:
+
+        data = response.json()
+        users = data.get("users", [])
+
+        for user in users:
+            if user.get("twitterUsername") == params["username"]:
+                address = user.get("address")
+                if address: print("User Address:", address)
+                else: return HTTPException(status_code=400, detail="No exact matching Twitter handle on Friends.Tech")
+                break
+
+    else: return HTTPException(status_code=400, detail="Friends.Tech API not responding correctly")
+
+    if user: return user
+    else: return HTTPException(status_code=400, detail="No matching Twitter handle on Friends.Tech")
