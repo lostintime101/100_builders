@@ -1,7 +1,7 @@
 // components/Search.js
 import { useState } from 'react';
 
-function Search() {
+function SearchComponent() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResult, setSearchResult] = useState(null);
 
@@ -17,14 +17,21 @@ function Search() {
 
       if (response.ok) {
         const data = await response.json();
+        const ethereumAddress = data.address;
+        const firstFive = ethereumAddress.slice(0, 4);
+        const lastFive = ethereumAddress.slice(-4);
+        const formattedAddress = `${firstFive}...${lastFive}`;
+
         setSearchResult(
-          <div>
-            <h3>Search Result:</h3>
-            <p>Address: {data.address}</p>
-            <p>Twitter Username: {data.twitterUsername}</p>
-            <p>Twitter Name: {data.twitterName}</p>
-            <p>Twitter Profile Picture URL: {data.twitterPfpUrl}</p>
-            <p>Twitter User ID: {data.twitterUserId}</p>
+          <div className="profile-card">
+            <div className="profile-picture">
+              <img src={data.twitterPfpUrl} alt="Profile Picture" />
+            </div>
+            <div className="profile-info">
+              <h3>{data.twitterName}</h3>
+              <p><strong>Address:</strong> {formattedAddress}</p>
+              <p><strong>Holder Count:</strong> {data.holderCount}</p>
+            </div>
           </div>
         );
       } else {
@@ -37,21 +44,27 @@ function Search() {
     }
   };
 
-
   return (
-    <div>
+    <div className="search-container">
       <input
         type="text"
-        placeholder="Enter a Twitter handle"
+        placeholder="Paste a Twitter handle"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+        onKeyPress={(e) => {
+          if (e.key === 'Enter') {
+            handleSearch();
+          }
+        }}
       />
       <button onClick={handleSearch}>Search</button>
 
-      {/* Display search result */}
-      {searchResult}
+      <div className="search-result">
+        {/* Display search result */}
+        {searchResult}
+      </div>
     </div>
   );
 }
 
-export default Search;
+export default SearchComponent;

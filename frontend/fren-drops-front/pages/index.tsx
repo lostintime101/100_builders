@@ -1,8 +1,9 @@
+// pages/index.tsx
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import Search from '../search';
+import SearchComponent from '../search';
 
 const Home: NextPage = () => {
   return (
@@ -23,15 +24,7 @@ const Home: NextPage = () => {
           Welcome to <a href="">Fren Drops</a>
         </h1>
 
-
-          <Search />
-
-        <div className={styles.grid}>
-          <a className={styles.card} href="https://rainbowkit.com">
-            <h2>RainbowKit Documentation &rarr;</h2>
-            <p>Learn how to customize your wallet connection flow.</p>
-          </a>
-        </div>
+        <SearchComponent />
       </main>
 
       <footer className={styles.footer}>

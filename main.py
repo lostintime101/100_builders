@@ -14,7 +14,6 @@ import utils
 from db_tables_setup import Airdrop, Activation, Whitelist, Status, AirdropUpdate, WhitelistUpdate
 from onchain_logic import *
 from utils import *
-from get_holders import fetch_key_holders
 
 
 load_dotenv()
@@ -168,9 +167,8 @@ async def fetch_group_from_twitter_handle(twitter_handle: str):
 
     cleaned_username = twitter_handle.strip().lstrip("@")
 
-    if re.match("^[a-zA-Z0-9_]{1,15}$", cleaned_username):
-        print("Cleaned username:", cleaned_username)
-    else: return HTTPException(status_code=400, detail="Invalid handle. Please provide a valid Twitter handle.")
+    if not re.match("^[a-zA-Z0-9_]{1,15}$", cleaned_username):
+        return HTTPException(status_code=400, detail="Invalid handle. Please provide a valid Twitter handle.")
 
     url = "https://prod-api.kosetto.com/search/users"
 
@@ -183,7 +181,7 @@ async def fetch_group_from_twitter_handle(twitter_handle: str):
     params = {"username": cleaned_username}
 
     response = requests.get(url, headers=headers, params=params)
-    user = None
+    address = None
 
     if response.status_code == 200:
 
@@ -193,11 +191,18 @@ async def fetch_group_from_twitter_handle(twitter_handle: str):
         for user in users:
             if user.get("twitterUsername") == params["username"]:
                 address = user.get("address")
-                if address: print("User Address:", address)
-                else: return HTTPException(status_code=400, detail="No exact matching Twitter handle on Friends.Tech")
                 break
+
+        if not address: return HTTPException(status_code=400, detail="No exact matching Twitter handle on Friends.Tech")
 
     else: return HTTPException(status_code=400, detail="Friends.Tech API not responding correctly")
 
+    # get holder count
+    url = f"https://prod-api.kosetto.com/users/{address}/"
+    response = requests.get(url, headers=None)
+    group_info = response.json()
+
+    user["holderCount"] = group_info["holderCount"]
+    print(user)
     if user: return user
     else: return HTTPException(status_code=400, detail="No matching Twitter handle on Friends.Tech")
