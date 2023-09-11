@@ -29,6 +29,10 @@
   flex-grow: 1;
 }
 
+.content {
+  margin-bottom: 5%;
+}
+
 .title a {
   color: #0d76fc;
   text-decoration: none;
@@ -102,3 +106,7 @@
   }
 }
 
+.frendrops {
+  color: #0d76fc;
+  text-decoration: none;
+}
