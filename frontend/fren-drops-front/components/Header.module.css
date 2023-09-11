@@ -1,0 +1,9 @@
+/* Header.module.css */
+.header {
+  position: fixed;
+  top: 20px; /* Adjust the distance from the top as needed */
+  right: 20px; /* Adjust the distance from the right as needed */
+  z-index: 999; /* Ensure the button stays on top of other content */
+}
+
+

@@ -1,5 +1,7 @@
-// components/Search.js
+import React from 'react'
 import { useState } from 'react';
+import { FaSearch } from "react-icons/fa";
+import styles from './SearchBar.module.css';
 
 function SearchComponent() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -23,7 +25,9 @@ function SearchComponent() {
         const formattedAddress = `${firstFive}...${lastFive}`;
 
         setSearchResult(
+
           <div className="profile-card">
+            <a href="#amount-section" className="profile-card">
             <div className="profile-picture">
               <img src={data.twitterPfpUrl} alt="Profile Picture" />
             </div>
@@ -32,7 +36,9 @@ function SearchComponent() {
               <p><strong>Address:</strong> {formattedAddress}</p>
               <p><strong>Holder Count:</strong> {data.holderCount}</p>
             </div>
+            </a>
           </div>
+
         );
       } else {
         console.error('Error fetching data');
@@ -45,10 +51,11 @@ function SearchComponent() {
   };
 
   return (
-    <div className="search-container">
+    <div className={styles['search-container']}>
+      <FaSearch id="search-icon" className={styles['search-icon']}/>
       <input
         type="text"
-        placeholder="Paste a Twitter handle"
+        placeholder="paste a Twitter handle ..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         onKeyPress={(e) => {
@@ -57,10 +64,7 @@ function SearchComponent() {
           }
         }}
       />
-      <button onClick={handleSearch}>Search</button>
-
       <div className="search-result">
-        {/* Display search result */}
         {searchResult}
       </div>
     </div>
@@ -68,3 +72,4 @@ function SearchComponent() {
 }
 
 export default SearchComponent;
+
