@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import { FaSearch } from "react-icons/fa";
 import styles from './SearchBar.module.css';
+import { Link, animateScroll as scroll } from 'react-scroll';
 
 function SearchComponent() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -25,20 +26,18 @@ function SearchComponent() {
         const formattedAddress = `${firstFive}...${lastFive}`;
 
         setSearchResult(
-
-          <div className="profile-card">
-            <a href="#amount-section" className="profile-card">
             <div className="profile-picture">
-              <img src={data.twitterPfpUrl} alt="Profile Picture" />
+            <Link to="section2" smooth={true} duration={500}>
+                <a href="" className={styles['profile-card']}>
+                    <img src={data.twitterPfpUrl} alt="Profile Picture" />
+                    <div className={styles['profile-info']}>
+                      <h3>{data.twitterName}</h3>
+                      <p><strong>Address:</strong> {formattedAddress}</p>
+                      <p><strong>Holder Count:</strong> {data.holderCount}</p>
+                    </div>
+                </a>
+            </Link>
             </div>
-            <div className="profile-info">
-              <h3>{data.twitterName}</h3>
-              <p><strong>Address:</strong> {formattedAddress}</p>
-              <p><strong>Holder Count:</strong> {data.holderCount}</p>
-            </div>
-            </a>
-          </div>
-
         );
       } else {
         console.error('Error fetching data');
@@ -51,6 +50,7 @@ function SearchComponent() {
   };
 
   return (
+  <>
     <div className={styles['search-container']}>
       <FaSearch id="search-icon" className={styles['search-icon']}/>
       <input
@@ -64,10 +64,9 @@ function SearchComponent() {
           }
         }}
       />
-      <div className="search-result">
-        {searchResult}
-      </div>
     </div>
+    {searchResult}
+ </>
   );
 }
 

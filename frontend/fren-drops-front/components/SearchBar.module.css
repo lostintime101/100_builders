@@ -30,3 +30,36 @@
 .search-icon {
 color: #007bff;
 }
+
+
+/* CSS for the profile card */
+.profile-card {
+  display: flex;
+  align-items: center;
+  margin: 30px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+.profile-card img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%; /* Creates a circular profile picture */
+
+  margin-right: 20px;
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-info h3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.profile-info p {
+  margin: 5px 0;
+}

@@ -110,3 +110,9 @@
   color: #0d76fc;
   text-decoration: none;
 }
+
+.waiting {
+ height: 100px;
+ margin-bottom: 30px;
+ display: inline;
+}

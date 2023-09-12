@@ -1,0 +1,14 @@
+/* LoadingDots.css */
+.loading-container {
+  height: 50px; /* Set the desired constant height */
+  display: flex;
+  align-items: center;
+}
+
+.loading-dot {
+  width: 20px; /* Increase the dot size */
+  height: 20px; /* Increase the dot size */
+  background-color: #007bff; /* Dot color */
+  border-radius: 50%;
+  margin-right: 10px; /* Adjust spacing between dots */
+}

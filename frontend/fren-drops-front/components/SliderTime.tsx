@@ -10,32 +10,31 @@ function SliderTime() {
     useEffect(()=>{
         if(data == 0){
             setDescription("24 hrs")
-            setDetail(`After which unclaimed funds will be returned.`)
+            setDetail(`I gave you an entire day to claim bro.`)
         }
         else if(data == 25){
             setDescription("18 hrs")
-            setDetail(`After which unclaimed funds will be returned.`)
+            setDetail(`You really need to check the chat more often.`)
         }
         else if(data == 50){
             setDescription("12 hrs")
-            setDetail(`After which unclaimed funds will be returned.`)
+            setDetail(`Ample time to claim.`)
         }
         else if(data == 75){
             setDescription("6 hrs")
-            setDetail(`After which unclaimed funds will be returned.`)
+            setDetail(`You were sleeping? Sorry`)
         }
         else if(data == 100){
             setDescription("1 hr")
-            setDetail(`After which unclaimed funds will be returned.`)
+            setDetail(`Having lunch? NGMI`)
         }
     },[data])
 
     return(
         <>
+        <h1 className={styles['slider-status']}>{description}</h1>
         <div className={styles['slider-container']}>
-            <p className={styles['slider-title']}>Time</p>
             <input className={styles['slider']} type="range" min="0" max="100" step="25" value={data} onChange={(e)=>setData(e.target.value)} />
-            <p className={styles['slider-status']}>{description}</p>
         </div>
         <p className={styles['slider-detail']}>{detail}</p>
         </>

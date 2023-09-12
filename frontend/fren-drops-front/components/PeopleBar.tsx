@@ -1,16 +1,18 @@
 import React from 'react'
 import { FaEthereum } from "react-icons/fa";
+import { BsFillPeopleFill } from "react-icons/bs";
 import styles from './AmountBar.module.css';
 
-function AmountBar() {
-
+function PeopleBar() {
+  const max_group_holders = 100;
   return (
+    <>
     <div className={styles['search-container']}>
-      <FaEthereum id="FaEthereum" className={styles['search-icon']}/>
+      <BsFillPeopleFill id="FaEthereum" className={styles['search-icon']}/>
       <input
         type="number"
-        min="0.001"
-        placeholder="eth..."
+        min="1"
+        placeholder={` max ${max_group_holders}`}
         onKeyPress={(e) => {
           if (e.key === 'Enter') {
             console.log("amount of ETH to airdrop entered");
@@ -18,8 +20,9 @@ function AmountBar() {
         }}
       />
     </div>
+    </>
   );
 };
 
-export default AmountBar;
+export default PeopleBar;
 

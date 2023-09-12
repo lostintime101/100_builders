@@ -16,6 +16,7 @@
 
 .search-container input[type="number"] {
   background-color: transparent;
+  padding-left: 10px;
   border: none;
   font-size: 20px;
   height: 100%;

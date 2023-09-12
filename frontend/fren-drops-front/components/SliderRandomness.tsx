@@ -14,28 +14,27 @@ function SliderRandomness() {
         }
         else if(data == 25){
             setDescription("Low")
-            setDetail("Mild randomization")
+            setDetail("Rewards mildly randomized")
         }
         else if(data == 50){
-            setDescription("Mid")
-            setDetail("Randomized amounts")
+            setDescription("Medium")
+            setDetail("Airdrop rewards are randomized normally")
         }
         else if(data == 75){
             setDescription("High")
-            setDetail("Risk addict")
+            setDetail("Highly randomized rewards")
         }
         else if(data == 100){
             setDescription("Degen")
-            setDetail("Outright degenerate level of randomness")
+            setDetail("Outright degenerate levels of randomness")
         }
     },[data])
 
     return(
         <>
+        <h1 className={styles['slider-status']}>{description}</h1>
         <div className={styles['slider-container']}>
-            <p className={styles['slider-title']}>Randomness</p>
             <input className={styles['slider']} type="range" min="0" max="100" step="25" value={data} onChange={(e)=>setData(e.target.value)} />
-            <p className={styles['slider-status']}>{description}</p>
         </div>
         <p className={styles['slider-detail']}>{detail}</p>
         </>
