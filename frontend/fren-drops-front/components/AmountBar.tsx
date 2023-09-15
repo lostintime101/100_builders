@@ -1,8 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react';
 import { FaEthereum } from "react-icons/fa";
 import styles from './AmountBar.module.css';
+import sharedData from './sharedData';
+import { Link, animateScroll as scroll } from 'react-scroll';
 
 function AmountBar() {
+  const [inputValue, setInputValue] = useState('');
+  const currentAirdrop = sharedData.currentAirdrop;
+
+  const handleAmountChange = () => {
+  if (inputValue !== '') {
+    currentAirdrop.amount = inputValue;
+    console.log(currentAirdrop);
+  }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleAmountChange();
+    }
+  };
 
   return (
     <div className={styles['search-container']}>
@@ -11,13 +28,15 @@ function AmountBar() {
         type="number"
         min="0.001"
         placeholder="eth..."
-        onKeyPress={(e) => {
-          if (e.key === 'Enter') {
-            console.log("amount of ETH to airdrop entered");
-          }
-        }}
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        onKeyPress={handleKeyPress}
       />
+      <Link to="section3" smooth={true} duration={500}>
+      <button onClick={handleAmountChange}>Confirm</button>
+      </Link>
     </div>
+
   );
 };
 

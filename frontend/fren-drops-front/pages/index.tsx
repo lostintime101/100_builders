@@ -5,6 +5,8 @@ import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { useState } from 'react';
 import { Link, animateScroll as scroll } from 'react-scroll';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 // components
 import SearchComponent from '../components/SearchBar.tsx';
@@ -15,18 +17,12 @@ import SliderRandomness from '../components/SliderRandomness.tsx';
 import CreateButton1 from '../components/CreateButton1.tsx';
 import CreateButton2 from '../components/CreateButton2.tsx';
 import CreateButton3 from '../components/CreateButton3.tsx';
-import CreateButton4 from '../components/CreateButton4.tsx';
 import PeopleBar from '../components/PeopleBar.tsx';
 import WaitingDots from '../components/WaitingDots.tsx';
+import CurrentAirdrop from '../components/CurrentAirdrop.tsx';
+
 
 const Home: NextPage = () => {
-
-  const [amount, setAmount] = useState('');
-
-  const handleConfirm = () => {
-    // Store the amount or use it as needed.
-    console.log('Confirmed Amount:', amount);
-  };
 
   return (
     <div className={styles.container}>
@@ -45,9 +41,7 @@ const Home: NextPage = () => {
       <main className={styles.main}>
 
         <div className={styles.content}>
-        <h1 className={styles.title}>
-          Welcome to <span className={styles.frendrops}>Fren Drops</span>
-        </h1>
+        <h1 className={styles.title}>Welcome to <span className={styles.frendrops}>Fren Drops</span></h1>
         <SearchComponent />
         </div>
 
@@ -56,11 +50,8 @@ const Home: NextPage = () => {
       <main2 className={styles.main} id="section2">
 
         <div className={styles.content}>
-        <h1 className={styles.title}>
-          Amount to <span className={styles.frendrops}>airdrop</span>
-        </h1>
-        <AmountBar/>
-        <CreateButton1/>
+        <h1 className={styles.title}>Amount to <span className={styles.frendrops}>airdrop</span></h1>
+        <AmountBar />
         </div>
 
       </main2>
@@ -68,9 +59,7 @@ const Home: NextPage = () => {
       <main3 className={styles.main} id="section3">
 
         <div className={styles.content}>
-        <h1 className={styles.title}>
-          Airdrop will be <span className={styles.frendrops}>live</span> for
-        </h1>
+        <h1 className={styles.title}>Airdrop will be <span className={styles.frendrops}>live </span>for</h1>
         <SliderTime/>
 
         <CreateButton2/>
@@ -81,9 +70,8 @@ const Home: NextPage = () => {
       <main4 className={styles.main} id="section4">
 
         <div className={styles.content}>
-        <h1 className={styles.title}>
-          Choose <span className={styles.frendrops}>randomness</span> level
-        </h1>
+        <h1 className={styles.title}>Choose <span className={styles.frendrops}>randomness </span>level</h1>
+
         <SliderRandomness/>
 
         <CreateButton3/>
@@ -95,12 +83,9 @@ const Home: NextPage = () => {
       <main5 className={styles.main} id="section5">
 
         <div className={styles.content}>
-        <h1 className={styles.title}>
-          Drop to ___ <span className={styles.frendrops}>key holders</span>
-        </h1>
+        <h1 className={styles.title}>Drop to ___ <span className={styles.frendrops}>key holders</span></h1>
 
         <PeopleBar/>
-        <CreateButton4/>
         </div>
 
       </main5>
@@ -108,8 +93,7 @@ const Home: NextPage = () => {
       <main6 className={styles.main} id="section6">
 
         <div className={styles.waiting}>
-        <h1 className={styles.title}>
-          Creating <span className={styles.frendrops}>Fren Drop</span>
+        <h1 className={styles.title}>Creating <span className={styles.frendrops}>Fren Drop</span>
         <WaitingDots />
         </h1>
         </div>
@@ -118,9 +102,7 @@ const Home: NextPage = () => {
 
 
       <footer className={styles.footer}>
-        <a href="https://rainbow.me" rel="noopener noreferrer" target="_blank">
-          Made with ❤️ by fren drops
-        </a>
+        <a href="https://rainbow.me" rel="noopener noreferrer" target="_blank">Made with ❤️ by fren drops</a>
       </footer>
     </div>
   );

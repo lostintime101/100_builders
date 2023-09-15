@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styles from './CreateButton.module.css';
 import { Link, animateScroll as scroll } from 'react-scroll';
+import sharedData from './sharedData';
 
 function CreateButton1() {
+    const currentAirdrop = sharedData.currentAirdrop;
 
     return(
         <div className={styles.createButton}>

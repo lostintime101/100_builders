@@ -3,13 +3,24 @@ import { useState } from 'react';
 import { FaSearch } from "react-icons/fa";
 import styles from './SearchBar.module.css';
 import { Link, animateScroll as scroll } from 'react-scroll';
+import sharedData from './sharedData';
 
 function SearchComponent() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResult, setSearchResult] = useState(null);
+  const currentAirdrop = sharedData.currentAirdrop;
 
   const handleSearch = async () => {
     console.log('Search Term:', searchTerm);
+
+  const handleProfileCardClick = (dataObj) => {
+  currentAirdrop.address = dataObj.address;
+  currentAirdrop.twitterHandle = dataObj.twitterName;
+  console.log("Address set to: ", currentAirdrop.address)
+  console.log("Twitter Handle set to: ", currentAirdrop.twitterHandle)
+  console.log(currentAirdrop)
+  };
+
     try {
       const response = await fetch(`http://127.0.0.1:8000/api/v1/group/${searchTerm}`);
       if (response.status === 404) {
@@ -27,7 +38,7 @@ function SearchComponent() {
 
         setSearchResult(
             <div className="profile-picture">
-            <Link to="section2" smooth={true} duration={500}>
+            <Link to="section2" smooth={true} duration={500} onClick={() => handleProfileCardClick(data)}>
                 <a href="" className={styles['profile-card']}>
                     <img src={data.twitterPfpUrl} alt="Profile Picture" />
                     <div className={styles['profile-info']}>

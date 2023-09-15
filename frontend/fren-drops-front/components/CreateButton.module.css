@@ -1,4 +1,5 @@
 .createButton {
+
 }
 
 
@@ -10,7 +11,6 @@
   margin-top: 40px;
   border-radius: 10px; /* Rounded corners */
   text-align: center; /* Center the text inside the button */
-  border: none; /* Remove default button border */
   cursor: pointer; /* Add pointer cursor on hover */
   font-weight: bold; /* Make the text bold */
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
