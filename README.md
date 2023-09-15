@@ -16,9 +16,7 @@ Samples from the slide deck below, watch the [intro video](https://www.loom.com/
 
 ![Slide6](https://github.com/lostintime101/100_builders/assets/92709487/e74666fe-a14b-4ecf-8d12-1159adac06f9)
 
-![Slide8](https://github.com/lostintime101/100_builders/assets/92709487/fd59ec5c-d1ca-40d3-9b18-30f08ecb1fa7)
-
-![Slide14](https://github.com/lostintime101/100_builders/assets/92709487/cee33a56-4177-4bce-82d7-5c7103058950)
+![Slide13](https://github.com/lostintime101/100_builders/assets/92709487/966b98b0-ee4c-4d6d-9828-2d90de64d589)
 
 ![Fren Drops1](https://github.com/lostintime101/100_builders/assets/92709487/031af720-e8c2-42fa-aec5-3a790c75db30)
 
