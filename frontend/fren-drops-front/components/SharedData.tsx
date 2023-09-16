@@ -2,7 +2,8 @@
 const sharedData = {
   currentAirdrop: {
     twitterHandle: null,
-    address: null,
+    groupAddress: null,
+    creatorAddress: null,
     amount: 0,
     time: 0,
     randomness: null,

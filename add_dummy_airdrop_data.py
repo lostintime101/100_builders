@@ -4,9 +4,9 @@ from sqlmodel import Session, create_engine, SQLModel
 from dotenv import load_dotenv
 
 # built-in
-import os, randomness_simulation, string
+import os, random, string
 from datetime import datetime
-from randomness_simulation import choice
+from random import choice
 from enum import Enum
 
 # local
@@ -29,21 +29,28 @@ def generate_dummy_data(num_records):
         airdrop = Airdrop(
             nonce=get_new_nonce(),
             dispatch_address="Ox" + fake.sha256(raw_output=False)[:40],
-            created_at=datetime.now(),
+            creator_address="Ox" + fake.sha256(raw_output=False)[:40],
+            group_address="Ox" + fake.sha256(raw_output=False)[:40],
+
             gas_token_amount=fake.random_int(min=0, max=1000),
             airdrop_token_amount=fake.random_int(min=0, max=10000),
             airdrop_token_address="Ox" + fake.sha256(raw_output=False)[:40],
             current_token_balance=fake.random_int(min=0, max=100000),
-            creator_address="Ox" + fake.sha256(raw_output=False)[:40],
-            message=fake.text(),
+
+            live_for=fake.random_int(min=1, max=24),
             randomness=choice(list(RandomnessLevel)),
+            message=fake.text(),
+            activated=choice(list(Activation)),
+            transaction_hash="0x" + transaction_hash,
+
             whitelist_created=choice([True, False]),
             recipients=fake.random_int(min=1, max=100),
             total_addresses_claimed=fake.random_int(min=0, max=100),
-            activated=choice(list(Activation)),
+
+            created_at=datetime.now(),
             activated_at=fake.date_time_this_decade(),
-            deactivated_at=fake.date_time_this_decade(),
-            transaction_hash="0x" + transaction_hash
+            deactivated_at=fake.date_time_this_decade()
+
         )
 
         dummy_data.append(airdrop)

@@ -1,6 +1,6 @@
-import os, randomness_simulation, string
+import os, random, string
 from datetime import datetime
-from randomness_simulation import choice
+from random import choice
 from sqlmodel import Session, create_engine, SQLModel
 from faker import Faker
 from enum import Enum

@@ -10,8 +10,8 @@ function AmountBar() {
 
   const handleAmountChange = () => {
   if (inputValue !== '') {
-    currentAirdrop.amount = inputValue;
-    console.log(currentAirdrop);
+    currentAirdrop.amount = parseInt(inputValue);
+    console.log("Amount", currentAirdrop.amount);
   }
   };
 

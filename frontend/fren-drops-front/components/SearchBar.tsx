@@ -14,9 +14,9 @@ function SearchComponent() {
     console.log('Search Term:', searchTerm);
 
   const handleProfileCardClick = (dataObj) => {
-  currentAirdrop.address = dataObj.address;
+  currentAirdrop.groupAddress = dataObj.address;
   currentAirdrop.twitterHandle = dataObj.twitterName;
-  console.log("Address set to: ", currentAirdrop.address)
+  console.log("Group address set to: ", currentAirdrop.groupAddress)
   console.log("Twitter Handle set to: ", currentAirdrop.twitterHandle)
   console.log(currentAirdrop)
   };
@@ -37,18 +37,18 @@ function SearchComponent() {
         const formattedAddress = `${firstFive}...${lastFive}`;
 
         setSearchResult(
-            <div className="profile-picture">
+          <div className="profile-picture">
             <Link to="section2" smooth={true} duration={500} onClick={() => handleProfileCardClick(data)}>
-                <a href="" className={styles['profile-card']}>
-                    <img src={data.twitterPfpUrl} alt="Profile Picture" />
-                    <div className={styles['profile-info']}>
-                      <h3>{data.twitterName}</h3>
-                      <p><strong>Address:</strong> {formattedAddress}</p>
-                      <p><strong>Holder Count:</strong> {data.holderCount}</p>
-                    </div>
-                </a>
+              <div className={styles['profile-card']}>
+                <img src={data.twitterPfpUrl} alt="Profile Picture" />
+                <div className={styles['profile-info']}>
+                  <h3>{data.twitterName}</h3>
+                  <p><strong>Address:</strong> {formattedAddress}</p>
+                  <p><strong>Holder Count:</strong> {data.holderCount}</p>
+                </div>
+              </div>
             </Link>
-            </div>
+          </div>
         );
       } else {
         console.error('Error fetching data');

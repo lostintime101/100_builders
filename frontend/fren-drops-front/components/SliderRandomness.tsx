@@ -13,27 +13,27 @@ function SliderRandomness() {
         if(data == 0){
             setDescription("None")
             setDetail("All are equal here comrade")
-            currentAirdrop.randomness = "None";
+            currentAirdrop.randomness = "none";
         }
         else if(data == 25){
             setDescription("Low")
             setDetail("Rewards mildly randomized")
-            currentAirdrop.randomness = "Low";
+            currentAirdrop.randomness = "low";
         }
         else if(data == 50){
             setDescription("Medium")
             setDetail("Airdrop rewards are randomized normally")
-            currentAirdrop.randomness = "Medium";
+            currentAirdrop.randomness = "mid";
         }
         else if(data == 75){
             setDescription("High")
             setDetail("Highly randomized rewards")
-            currentAirdrop.randomness = "High";
+            currentAirdrop.randomness = "high";
         }
         else if(data == 100){
             setDescription("Degen")
             setDetail("Outright degenerate levels of randomness")
-            currentAirdrop.randomness = "Degen";
+            currentAirdrop.randomness = "degenerate";
         }
         console.log(currentAirdrop.randomness);
     },[data])
