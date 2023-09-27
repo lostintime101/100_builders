@@ -17,8 +17,8 @@ function PeopleBar() {
       const url = 'http://127.0.0.1:8000/api/v1/drops/';
 
       const requestBody = {
-          creator_address: '0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5',
-          group_address: '0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5',
+          creator_address: currentAirdrop.groupAddress, //# TODO: change to current user address
+          group_address: currentAirdrop.groupAddress,
           gas_token_amount: 0,
           airdrop_token_amount: currentAirdrop.amount,
           current_token_balance: 0,
@@ -56,6 +56,12 @@ function PeopleBar() {
       }
   };
 
+  const createWaitlist = async () => {
+
+
+
+  };
+
 
   const handleAmountChange = () => {
 
@@ -75,6 +81,7 @@ function PeopleBar() {
   const handleConfirmClick = async () => {
     handleAmountChange();
     await fetchAirdrop();
+    await createWaitlist();
   };
 
   const handleKeyPress = (e) => {

@@ -1,12 +1,11 @@
 // pages/index.tsx
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
+import { Link, animateScroll as scroll } from 'react-scroll';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import { useState } from 'react';
-import { Link, animateScroll as scroll } from 'react-scroll';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 // components
 import SearchComponent from '../components/SearchBar.tsx';
@@ -99,7 +98,6 @@ const Home: NextPage = () => {
         </div>
 
       </main6>
-
 
       <footer className={styles.footer}>
         <a href="https://rainbow.me" rel="noopener noreferrer" target="_blank">Made with ❤️ by fren drops</a>

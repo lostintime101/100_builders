@@ -5,6 +5,7 @@ import type { AppProps } from 'next/app';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import { arbitrum, mainnet, optimism, base } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
+import { useAccount } from 'wagmi'
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [ mainnet, optimism, arbitrum, base],
